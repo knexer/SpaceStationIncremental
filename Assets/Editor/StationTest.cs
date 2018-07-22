@@ -66,4 +66,38 @@ public class StationTest {
 
         Assert.IsTrue(isCompleted);
     }
+
+    [Test]
+    public void TestProjectsCompletedOnlyOnce()
+    {
+        var station = new Station();
+        int numCompletions = 0;
+        var project = new Project(new[] { new ResourceDelta(ResourceType.Air, 100) }, () => numCompletions++);
+
+        station.AddProject(project);
+        station.DoTurn();
+        Assert.AreEqual(1, numCompletions);
+
+        station.DoTurn();
+        Assert.AreEqual(1, numCompletions);
+    }
+
+    [Test]
+    public void TestUpkeepHasDibs()
+    {
+        var station = new Station();
+        bool isCompleted = false;
+        var project = new Project(new[] {new ResourceDelta(ResourceType.Air, 100)}, () => isCompleted = true);
+        
+        station.AddProject(project);
+        station.DoTurn();
+        Assert.IsTrue(isCompleted);
+
+        isCompleted = false;
+        station.AddProject(project);
+        station.AddUpkeepDelta(new ResourceDelta(ResourceType.Air, -10));
+        station.DoTurn();
+
+        Assert.IsFalse(isCompleted);
+    }
 }
