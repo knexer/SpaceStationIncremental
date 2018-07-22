@@ -8,22 +8,40 @@ using Assets.Scripts;
 
 public sealed class Station
 {
-    private readonly ResourcesStorage resourcesStorage;
+    public readonly ResourcesStorage ResourcesStorage;
     private readonly List<ResourceDelta> upkeepDeltas;
     private readonly List<Project> projects;
     private int numCompletedProjectsNextTurn;
 
     public Station()
     {
-        resourcesStorage = new ResourcesStorage();
+        ResourcesStorage = new ResourcesStorage();
         projects = new List<Project>();
         numCompletedProjectsNextTurn = 0;
         upkeepDeltas = new List<ResourceDelta>();
     }
 
+    public void AddUpkeepDelta(ResourceDelta upkeep)
+    {
+        upkeepDeltas.Add(upkeep);
+        CalculateNextTurn();
+    }
+
+    public void RemoveUpkeepDelta(ResourceDelta upkeep)
+    {
+        upkeepDeltas.Remove(upkeep);
+        CalculateNextTurn();
+    }
+
+    public void AddProject(Project project)
+    {
+        projects.Add(project);
+        CalculateNextTurn();
+    }
+
     public void DoTurn()
     {
-        resourcesStorage.Tick();
+        ResourcesStorage.Tick();
 
         for (int i = 0; i < numCompletedProjectsNextTurn; i++)
         {
@@ -38,7 +56,7 @@ public sealed class Station
     {
         foreach (ResourceDelta delta in upkeepDeltas)
         {
-            resourcesStorage.AddDelta(delta);
+            ResourcesStorage.AddDelta(delta);
         }
 
         var rocket = new Rocket(); // TODO this needs to stick around, really, if only so that the rocket contents can be communicated to the player
@@ -55,7 +73,7 @@ public sealed class Station
 
     private void EnsureUpkeepIsMet(Rocket rocket)
     {
-        foreach (KeyValuePair<ResourceType, ResourceStorage> resourceStorage in resourcesStorage.ResourceStorages)
+        foreach (KeyValuePair<ResourceType, ResourceStorage> resourceStorage in ResourcesStorage.ResourceStorages)
         {
             if (resourceStorage.Value.NextAmount >= 0) continue;
 
@@ -66,7 +84,7 @@ public sealed class Station
                 // TODO it needs to be impossible to get into this state, or something's gotta give.
                 throw new Exception();
             }
-            resourcesStorage.AddDelta(shortfall);
+            ResourcesStorage.AddDelta(shortfall);
         }
     }
 
@@ -77,7 +95,7 @@ public sealed class Station
         {
             // Figure out what resources still need to be launched.
             IEnumerable<ResourceDelta> remainingCosts = from cost in project.Cost
-                let remaining = cost.Amount - resourcesStorage.NextAmount(cost.Type)
+                let remaining = cost.Amount - ResourcesStorage.NextAmount(cost.Type)
                 where remaining > 0
                 select new ResourceDelta(cost.Type, remaining);
 
@@ -92,10 +110,10 @@ public sealed class Station
 
             // Its resources will be included in the rocket's cargo
             // TODO and hopefully there's space in space for all of it!
-            if (!resourcesStorage.TryAddDeltas(remainingCosts)) throw new Exception();
+            if (!ResourcesStorage.TryAddDeltas(remainingCosts)) throw new Exception();
 
             // And they'll be deducted from the storage after that
-            resourcesStorage.TryAddDeltas(project.Cost.Select(cost => new ResourceDelta(cost.Type, -cost.Amount)));
+            ResourcesStorage.TryAddDeltas(project.Cost.Select(cost => new ResourceDelta(cost.Type, -cost.Amount)));
         }
     }
 }
