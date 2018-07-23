@@ -13,6 +13,8 @@ public sealed class Station
     private readonly List<Project> projects;
     private int numCompletedProjectsNextTurn;
 
+    public event Action OnChanged;
+
     public Station()
     {
         ResourcesStorage = new ResourcesStorage();
@@ -36,6 +38,12 @@ public sealed class Station
     public void AddProject(Project project)
     {
         projects.Add(project);
+        CalculateNextTurn();
+    }
+
+    public void RemoveProject(Project project)
+    {
+        projects.Remove(project);
         CalculateNextTurn();
     }
 
@@ -69,6 +77,8 @@ public sealed class Station
 
         // TODO fill the rest of the rocket's capacity with some player-configurable default resource.
         // TODO or, possibly, include some subset of the resources for the next project, if any.
+
+        OnChanged?.Invoke();
     }
 
     private void EnsureUpkeepIsMet(Rocket rocket)
