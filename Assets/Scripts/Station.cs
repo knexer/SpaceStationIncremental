@@ -11,6 +11,7 @@ public sealed class Station
     public readonly ResourcesStorage ResourcesStorage;
     private readonly List<ResourceDelta> upkeepDeltas;
     private readonly List<Project> projects;
+    public IEnumerable<Project> Projects => projects.AsReadOnly();
     private int numCompletedProjectsNextTurn;
 
     public event Action OnChanged;

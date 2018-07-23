@@ -29,7 +29,7 @@ public class StationTest {
     {
         var station = new Station();
         bool isCompleted = false;
-        var project = new Project(new []{new ResourceDelta(ResourceType.Air, 10)}, () => isCompleted = true);
+        var project = new Project("", "", new []{new ResourceDelta(ResourceType.Air, 10)}, () => isCompleted = true);
 
         station.AddProject(project);
 
@@ -45,7 +45,7 @@ public class StationTest {
     {
         var station = new Station();
         bool isCompleted = false;
-        var project = new Project(new []{new ResourceDelta(ResourceType.Air, 100), new ResourceDelta(ResourceType.Food, 100), }, () => isCompleted = true);
+        var project = new Project("", "", new []{new ResourceDelta(ResourceType.Air, 100), new ResourceDelta(ResourceType.Food, 100), }, () => isCompleted = true);
 
         station.AddProject(project);
         station.DoTurn();
@@ -58,7 +58,7 @@ public class StationTest {
     {
         var station = new Station();
         bool isCompleted = false;
-        var project = new Project(new[] { new ResourceDelta(ResourceType.Air, 100), new ResourceDelta(ResourceType.Food, 100),  }, () => isCompleted = true);
+        var project = new Project("", "", new[] { new ResourceDelta(ResourceType.Air, 100), new ResourceDelta(ResourceType.Food, 100),  }, () => isCompleted = true);
 
         station.ResourcesStorage.AddDelta(new ResourceDelta(ResourceType.Air, 100));
         station.AddProject(project);
@@ -72,7 +72,7 @@ public class StationTest {
     {
         var station = new Station();
         int numCompletions = 0;
-        var project = new Project(new[] { new ResourceDelta(ResourceType.Air, 100) }, () => numCompletions++);
+        var project = new Project("", "", new[] { new ResourceDelta(ResourceType.Air, 100) }, () => numCompletions++);
 
         station.AddProject(project);
         station.DoTurn();
@@ -87,7 +87,7 @@ public class StationTest {
     {
         var station = new Station();
         bool isCompleted = false;
-        var project = new Project(new[] {new ResourceDelta(ResourceType.Air, 100)}, () => isCompleted = true);
+        var project = new Project("", "", new[] {new ResourceDelta(ResourceType.Air, 100)}, () => isCompleted = true);
         
         station.AddProject(project);
         station.DoTurn();
