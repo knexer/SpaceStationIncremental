@@ -22,4 +22,9 @@ public class StationComponent : MonoBehaviour {
             new[] {new ResourceDelta(ResourceType.Food, 10), new ResourceDelta(ResourceType.Water, 10)},
             () => Station.AddUpkeepDelta(new ResourceDelta(ResourceType.Air, -10))));
     }
+
+    public void OnNextTurnPressed()
+    {
+        Station.DoTurn();
+    }
 }
