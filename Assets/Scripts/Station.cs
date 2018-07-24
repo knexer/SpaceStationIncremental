@@ -13,6 +13,7 @@ public sealed class Station
     private readonly List<Project> projects;
     public IEnumerable<Project> Projects => projects.AsReadOnly();
     private int numCompletedProjectsNextTurn;
+    private bool doingTurn = false;
 
     public event Action OnChanged;
 
@@ -52,17 +53,21 @@ public sealed class Station
     {
         ResourcesStorage.Tick();
 
+        doingTurn = true;
         for (int i = 0; i < numCompletedProjectsNextTurn; i++)
         {
             projects[i].OnProjectCompleted();
         }
         projects.RemoveRange(0, numCompletedProjectsNextTurn);
+        doingTurn = false;
 
         CalculateNextTurn();
     }
 
     private void CalculateNextTurn()
     {
+        if (doingTurn) return;
+
         foreach (ResourceDelta delta in upkeepDeltas)
         {
             ResourcesStorage.AddDelta(delta);

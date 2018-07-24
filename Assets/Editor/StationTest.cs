@@ -2,6 +2,7 @@
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
+using System.Linq;
 
 public class StationTest {
 
@@ -99,5 +100,26 @@ public class StationTest {
         station.DoTurn();
 
         Assert.IsFalse(isCompleted);
+    }
+
+    [Test]
+    public void TestProjectCanModifyStationDuringEndTurn()
+    {
+        var station = new Station();
+        var project = new Project("", "", new[] { new ResourceDelta(ResourceType.Air, 100), new ResourceDelta(ResourceType.Food, 100) },
+            () => station.AddUpkeepDelta(new ResourceDelta(ResourceType.Water, 10)));
+
+        station.ResourcesStorage.AddDelta(new ResourceDelta(ResourceType.Air, 100));
+        station.DoTurn();
+
+        station.AddProject(project);
+
+        station.DoTurn();
+
+        // upkeep delta should be applied
+        Assert.AreEqual(10, station.ResourcesStorage.NextAmount(ResourceType.Water));
+
+        // and project should be removed
+        Assert.AreEqual(null, station.Projects.FirstOrDefault());
     }
 }
