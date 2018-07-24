@@ -11,10 +11,10 @@ public class StationComponent : MonoBehaviour {
         // TODO temp code to set up a nontrivial model for the UI to render
         Station.ResourcesStorage.AddDelta(new ResourceDelta(ResourceType.Air, 20));
         Station.ResourcesStorage.AddDelta(new ResourceDelta(ResourceType.Water, 30));
-        Station.DoTurn();
         Station.ResourcesStorage.AddDelta(new ResourceDelta(ResourceType.Air, 10));
         Station.ResourcesStorage.AddDelta(new ResourceDelta(ResourceType.Water, -10));
         Station.ResourcesStorage.AddDelta(new ResourceDelta(ResourceType.Food, 40));
+        Station.DoTurn();
 
         Station.AddProject(new Project("Test Project 1", "Does nothing but take your stuff.",
             new[] {new ResourceDelta(ResourceType.Food, 50), new ResourceDelta(ResourceType.Water, 60)}, () => { }));
