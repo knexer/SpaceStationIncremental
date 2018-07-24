@@ -16,7 +16,7 @@ public class ProjectQueue : MonoBehaviour
 
     private void Rebuild()
     {
-        for (int i = projectContainer.transform.childCount; i > 0; i--)
+        for (int i = projectContainer.transform.childCount - 1; i >= 0; i--)
         {
             Destroy(projectContainer.transform.GetChild(i).gameObject);
         }
