@@ -68,6 +68,8 @@ public sealed class Station
     {
         if (doingTurn) return;
 
+        ResourcesStorage.Reset();
+
         foreach (ResourceDelta delta in upkeepDeltas)
         {
             ResourcesStorage.AddDelta(delta);

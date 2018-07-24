@@ -12,6 +12,7 @@ public class StationTest {
         var station = new Station();
         ResourcesStorage storage = station.ResourcesStorage;
         storage.AddDelta(new ResourceDelta(ResourceType.Air, 20));
+        station.DoTurn();
         station.AddUpkeepDelta(new ResourceDelta(ResourceType.Air, -10));
 
         // upkeep depletes stored resource first
@@ -62,6 +63,7 @@ public class StationTest {
         var project = new Project("", "", new[] { new ResourceDelta(ResourceType.Air, 100), new ResourceDelta(ResourceType.Food, 100),  }, () => isCompleted = true);
 
         station.ResourcesStorage.AddDelta(new ResourceDelta(ResourceType.Air, 100));
+        station.DoTurn();
         station.AddProject(project);
         station.DoTurn();
 
@@ -100,6 +102,16 @@ public class StationTest {
         station.DoTurn();
 
         Assert.IsFalse(isCompleted);
+    }
+
+    [Test]
+    public void TestCalculateChangesIsIdempotent()
+    {
+        var station = new Station();
+        station.AddUpkeepDelta(new ResourceDelta(ResourceType.Air, 10));
+        station.AddUpkeepDelta(new ResourceDelta(ResourceType.Water, 10));
+
+        Assert.AreEqual(10, station.ResourcesStorage.NextAmount(ResourceType.Air));
     }
 
     [Test]

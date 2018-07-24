@@ -36,4 +36,9 @@ public sealed class ResourceStorage
 
     public void AddDelta(ResourceDelta delta) => this.nextTickDeltas.Add(delta);
     public void RemoveDelta(ResourceDelta delta) => this.nextTickDeltas.Remove(delta);
+
+    public void Reset()
+    {
+        nextTickDeltas.Clear();
+    }
 }

@@ -44,4 +44,12 @@ public sealed class ResourcesStorage
             storage.Tick();
         }
     }
+
+    public void Reset()
+    {
+        foreach (ResourceStorage storage in ResourceStorages.Values)
+        {
+            storage.Reset();
+        }
+    }
 }
