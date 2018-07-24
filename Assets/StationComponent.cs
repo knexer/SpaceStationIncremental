@@ -17,7 +17,7 @@ public class StationComponent : MonoBehaviour {
         Station.DoTurn();
 
         Station.AddProject(new Project("Test Project 1", "Does nothing but take your stuff.",
-            new[] {new ResourceDelta(ResourceType.Food, 50), new ResourceDelta(ResourceType.Water, 60)}, () => { }));
+            new[] {new ResourceDelta(ResourceType.Food, 60), new ResourceDelta(ResourceType.Water, 100)}, () => { }));
         Station.AddProject(new Project("Test Project 2", "Builds a magical air-from-nothing factory!",
             new[] {new ResourceDelta(ResourceType.Food, 10), new ResourceDelta(ResourceType.Water, 10)},
             () => Station.AddUpkeepDelta(new ResourceDelta(ResourceType.Air, 10))));
