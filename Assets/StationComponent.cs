@@ -20,7 +20,7 @@ public class StationComponent : MonoBehaviour {
             new[] {new ResourceDelta(ResourceType.Food, 50), new ResourceDelta(ResourceType.Water, 60)}, () => { }));
         Station.AddProject(new Project("Test Project 2", "Builds a magical air-from-nothing factory!",
             new[] {new ResourceDelta(ResourceType.Food, 10), new ResourceDelta(ResourceType.Water, 10)},
-            () => Station.AddUpkeepDelta(new ResourceDelta(ResourceType.Air, -10))));
+            () => Station.AddUpkeepDelta(new ResourceDelta(ResourceType.Air, 10))));
     }
 
     public void OnNextTurnPressed()
