@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StationComponent : MonoBehaviour {
+public class StationContainer : MonoBehaviour {
     public Station Station = new Station();
 
     public void Awake()

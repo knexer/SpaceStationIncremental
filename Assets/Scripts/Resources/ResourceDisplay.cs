@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ResourceDisplay : MonoBehaviour
 {
-    [SerializeField] private StationComponent station;
+    [SerializeField] private StationContainer station;
     [SerializeField] private GameObject RowPrefab;
 
     private List<GameObject> rows;

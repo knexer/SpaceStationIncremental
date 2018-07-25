@@ -6,7 +6,7 @@ public class ProjectQueue : MonoBehaviour
 {
     [SerializeField] private GameObject projectCardPrefab;
     [SerializeField] private GameObject projectContainer;
-    [SerializeField] private StationComponent station;
+    [SerializeField] private StationContainer station;
 
     private void Start()
     {
