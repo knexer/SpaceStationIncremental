@@ -9,5 +9,7 @@ public enum ResourceType
 {
     Water,
     Air,
-    Food
+    Food,
+    CrewQuartersComponent, // TODO this is stupid
+    RecyclingSystemComponent // TODO so is this
 }
