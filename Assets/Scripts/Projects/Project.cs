@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class Project
+public abstract class Project
 {
     public readonly string Name;
     public readonly string Description;
     public readonly IReadOnlyList<ResourceDelta> Cost;
     private readonly Action projectCompletedCallback;
-    public void OnProjectCompleted() => projectCompletedCallback();
+    public abstract void OnProjectCompleted();
 
-    public Project(string name, string description, IReadOnlyList<ResourceDelta> cost, Action projectCompletedCallback)
+    protected Project(string name, string description, IReadOnlyList<ResourceDelta> cost)
     {
         Name = name;
         Description = description;
         Cost = cost;
-        this.projectCompletedCallback = projectCompletedCallback;
     }
 }

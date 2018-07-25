@@ -16,9 +16,9 @@ public class StationContainer : MonoBehaviour {
         Station.ResourcesStorage.AddDelta(new ResourceDelta(ResourceType.Food, 40));
         Station.DoTurn();
 
-        Station.AddProject(new Project("Test Project 1", "Does nothing but take your stuff.",
+        Station.AddProject(new BasicProject("Test Project 1", "Does nothing but take your stuff.",
             new[] {new ResourceDelta(ResourceType.Food, 60), new ResourceDelta(ResourceType.Water, 100)}, () => { }));
-        Station.AddProject(new Project("Test Project 2", "Builds a magical air-from-nothing factory!",
+        Station.AddProject(new BasicProject("Test Project 2", "Builds a magical air-from-nothing factory!",
             new[] {new ResourceDelta(ResourceType.Food, 10), new ResourceDelta(ResourceType.Water, 10)},
             () => Station.AddUpkeepDelta(new ResourceDelta(ResourceType.Air, 10))));
     }
