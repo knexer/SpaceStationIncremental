@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 public interface IStationModule
 {
+    string Name { get; }
     IEnumerable<Project> AvailableProjects();
     IEnumerable<Project> CompletedProjects();
 }

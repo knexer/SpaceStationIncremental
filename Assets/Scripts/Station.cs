@@ -12,6 +12,8 @@ public sealed class Station
     private readonly List<ResourceDelta> upkeepDeltas;
     private readonly List<Project> projects;
     public IEnumerable<Project> Projects => projects.AsReadOnly();
+    public readonly IEnumerable<IStationModule> Modules;
+
     private int numCompletedProjectsNextTurn;
     private bool doingTurn = false;
 
@@ -23,6 +25,8 @@ public sealed class Station
         projects = new List<Project>();
         numCompletedProjectsNextTurn = 0;
         upkeepDeltas = new List<ResourceDelta>();
+
+        Modules = new[] {new CrewModule()};
     }
 
     public void AddUpkeepDelta(ResourceDelta upkeep)

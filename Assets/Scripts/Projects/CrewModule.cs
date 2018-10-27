@@ -21,6 +21,8 @@ public class CrewModule : IStationModule
         completedRecyclingProjects = new List<Project>();
     }
 
+    public string Name => "Crew Module";
+
     public IEnumerable<Project> AvailableProjects()
     {
         return new[] {availableCrewProject}.Concat(availableRecyclingProjects);
