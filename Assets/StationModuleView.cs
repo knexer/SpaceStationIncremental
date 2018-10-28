@@ -8,6 +8,7 @@ public class StationModuleView : MonoBehaviour
     [SerializeField] private StationContainer station;
     [SerializeField] private string stationModuleName;
     [SerializeField] private SpriteButton button;
+    [SerializeField] private ModuleModalView projectPanel;
     private IStationModule module;
 
 	// Use this for initialization
@@ -19,9 +20,7 @@ public class StationModuleView : MonoBehaviour
 
     private void ShowProjectsDialog()
     {
-        // TODO create a panel that shows project cards for the completed and available projects
-        // TODO the available project's cards should be buttons
-        Debug.Log("Showing dialog.");
+        projectPanel.Activate(module);
     }
 
     // TODO at some point station modules will likely have some notion of 'stages' or 'levels',
