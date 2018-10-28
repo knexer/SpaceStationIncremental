@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 // Makes a vanilla GO with a SpriteRenderer act like a button.
 // Tints the sprite based on the button state.
 // TODO instead of tinting, some other kind of highlighting would be nice
-public class SpriteButton : MonoBehaviour {
+public class SpriteButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler {
     public event Action OnClick;
 
     [SerializeField] private Color restTint;
@@ -17,25 +18,25 @@ public class SpriteButton : MonoBehaviour {
     private bool mouseOver = false;
     private bool pressed = false;
 
-    private void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData data)
     {
         mouseOver = true;
         UpdateSprite();
     }
 
-    private void OnMouseExit()
+    public void OnPointerExit(PointerEventData data)
     {
         mouseOver = false;
         UpdateSprite();
     }
 
-    private void OnMouseDown()
+    public void OnPointerDown(PointerEventData data)
     {
         pressed = true;
         UpdateSprite();
     }
 
-    private void OnMouseUp()
+    public void OnPointerUp(PointerEventData data)
     {
         pressed = false;
         UpdateSprite();
