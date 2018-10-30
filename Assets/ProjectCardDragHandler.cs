@@ -25,7 +25,7 @@ public class ProjectCardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHan
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        this.startParent = transform.parent.GetComponent<ProjectCardDropTarget>();
+        this.startParent = transform.GetComponentInParent<ProjectCardDropTarget>();
         this.startIndex = transform.GetSiblingIndex();
         
         // reparent this to the root Canvas so it isn't clipped.
@@ -40,8 +40,7 @@ public class ProjectCardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHan
         transform.position = eventData.position;
 
         ProjectCardDropTarget nextHovered = GetHoveredDropTarget(eventData);
-
-        Debug.Log("New hovered thing: " + nextHovered);
+        
         // Update the hovered container.
         if (nextHovered != currentHovered)
         {
@@ -51,10 +50,10 @@ public class ProjectCardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHan
             if (currentHovered != null)
             {
                 cardSurrogate = Instantiate(cardSurrogatePrefab);
-                cardSurrogate.transform.SetParent(currentHovered.transform, false);
+                cardSurrogate.transform.SetParent(currentHovered.CardContainer, false);
 
                 // We need fresh position data when we are determining the surrogate's child index later.
-                LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform) currentHovered.transform);
+                LayoutRebuilder.ForceRebuildLayoutImmediate(currentHovered.CardContainer);
             }
         }
 
@@ -63,11 +62,11 @@ public class ProjectCardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHan
         // Move the surrogate to the index of the closest object within the hovered container.
         // There is guaranteed to be at least one child - the surrogate - which simplifies the loop a bit.
         int minDistanceIndex = 0;
-        for (int i = 1; i < currentHovered.transform.childCount; i++)
+        for (int i = 1; i < currentHovered.CardContainer.childCount; i++)
         {
-            float childDistance = (currentHovered.transform.GetChild(i).transform.position - transform.position)
+            float childDistance = (currentHovered.CardContainer.GetChild(i).transform.position - transform.position)
                 .sqrMagnitude;
-            float minDistance = (currentHovered.transform.GetChild(minDistanceIndex).transform.position - transform.position)
+            float minDistance = (currentHovered.CardContainer.GetChild(minDistanceIndex).transform.position - transform.position)
                 .sqrMagnitude;
 
             if (childDistance < minDistance)
@@ -84,9 +83,10 @@ public class ProjectCardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHan
         if (currentHovered != null)
         {
             // Complete the drag, inserting into the current target.
-            transform.SetParent(currentHovered.transform, false);
+            transform.SetParent(currentHovered.CardContainer, false);
             transform.SetSiblingIndex(cardSurrogate.transform.GetSiblingIndex());
             Destroy(cardSurrogate);
+            currentHovered = null;
         }
         else
         {
@@ -103,8 +103,6 @@ public class ProjectCardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHan
     {
         var results = new List<RaycastResult>();
         GetComponentInParent<GraphicRaycaster>().Raycast(eventData, results);
-        Debug.Log(string.Join(", ", results.Select(hit => hit.gameObject)));
-        // TODO - these results don't contain things inside scrollrects?
         return results.FirstOrDefault(hit => hit.gameObject.GetComponent<ProjectCardDropTarget>() != null)
             .gameObject?.GetComponent<ProjectCardDropTarget>();
     }
