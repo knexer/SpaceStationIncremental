@@ -91,7 +91,7 @@ public class ProjectCardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHan
         else
         {
             // Revert the drag if we were not dropped onto a target.
-            transform.SetParent(startParent.transform, false);
+            transform.SetParent(startParent.CardContainer, false);
             transform.SetSiblingIndex(startIndex);
         }
 
