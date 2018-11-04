@@ -551,6 +551,7 @@ MonoBehaviour:
   projectCardPrefab: {fileID: 1860420456617114, guid: 50d54012678bfa4489f2faf8dad84953,
     type: 2}
   projectContainer: {fileID: 733882756}
+  projectCardDropTarget: {fileID: 1598060552}
   station: {fileID: 1424209484}
 --- !u!114 &529754752
 MonoBehaviour:

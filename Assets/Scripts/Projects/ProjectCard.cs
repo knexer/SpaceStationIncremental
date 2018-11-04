@@ -11,11 +11,11 @@ public class ProjectCard : MonoBehaviour
     [SerializeField] private Text Description;
     [SerializeField] private Text Cost;
 
-    private Project project;
+    public Project Project { get; private set; }
 
     public void Init(Project project)
     {
-        this.project = project;
+        this.Project = project;
         Name.text = project.Name;
         Description.text = project.Description;
         Cost.text = string.Join("\n", project.Cost.Select(cost => $"{cost.Type}: {cost.Amount}"));

@@ -53,6 +53,13 @@ public sealed class Station
         CalculateNextTurn();
     }
 
+    public void ReplaceProjects(IEnumerable<Project> newProjects)
+    {
+        projects.Clear();
+        projects.AddRange(newProjects);
+        CalculateNextTurn();
+    }
+
     public void DoTurn()
     {
         ResourcesStorage.Tick();
