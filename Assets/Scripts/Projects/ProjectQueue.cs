@@ -9,6 +9,9 @@ public class ProjectQueue : MonoBehaviour
     [SerializeField] private GameObject projectContainer;
     [SerializeField] private ProjectCardDropTarget projectCardDropTarget;
     [SerializeField] private StationContainer station;
+    [SerializeField] private ProjectCardFactory cardFactory;
+
+    private bool viewChanging = false;
 
     private void Start()
     {
@@ -20,16 +23,17 @@ public class ProjectQueue : MonoBehaviour
 
     private void OnModelChanged()
     {
+        if (viewChanging) return;
         // Rebuild view from model
         for (int i = projectContainer.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(projectContainer.transform.GetChild(i).gameObject);
+            cardFactory.DestroyCard(projectContainer.transform.GetChild(i).gameObject.GetComponent<ProjectCard>());
         }
 
         foreach (Project project in station.Station.Projects)
         {
-            var card = GameObject.Instantiate(projectCardPrefab, projectContainer.transform).GetComponent<ProjectCard>();
-            card.Init(project);
+            ProjectCard card = cardFactory.CreateUnique(project);
+            card.transform.SetParent(projectContainer.transform, false);
 
             // this will reverse the order so that they go right-to-left
             card.transform.SetAsFirstSibling();
@@ -51,6 +55,8 @@ public class ProjectQueue : MonoBehaviour
 
         projects.Reverse();
 
+        viewChanging = true;
         station.Station.ReplaceProjects(projects);
+        viewChanging = false;
     }
 }

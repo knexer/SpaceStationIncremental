@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class ModuleModalView : MonoBehaviour
 {
     private IStationModule currentModule;
-    [SerializeField] private ProjectCard cardTemplate;
     [SerializeField] private RectTransform cardContainer;
     [SerializeField] private Text title;
+    [SerializeField] private ProjectCardFactory cardFactory;
 
     public void Activate(IStationModule module)
     {
@@ -18,9 +18,8 @@ public class ModuleModalView : MonoBehaviour
         this.title.text = module.Name;
         foreach (Project availableProject in module.AvailableProjects())
         {
-            ProjectCard card = Instantiate(cardTemplate);
-            card.transform.SetParent(cardContainer, false);
-            card.Init(availableProject);
+            ProjectCard card = cardFactory.CreateUnique(availableProject);
+            card?.transform.SetParent(cardContainer, false);
         }
     }
 }
